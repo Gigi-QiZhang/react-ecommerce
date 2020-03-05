@@ -5,6 +5,12 @@ import './collection-preview.styles.scss';
 // import ShopPage from '../../pages/shop/shop.component';
 
 const CollectionPreview = ({ title, items }) => (
+    /* { items
+    .filter((item, idx) => idx < 4)
+    .map(item => (
+        <div key={item.id}>{item.name}</div>
+    ))
+    } */
     <div className='collection-preview'>
         <h1 className='title'>
             { title.toUpperCase() }
@@ -21,9 +27,3 @@ const CollectionPreview = ({ title, items }) => (
 
 export default CollectionPreview;
 
-{/* { items
-    .filter((item, idx) => idx < 4)
-    .map(item => (
-        <div key={item.id}>{item.name}</div>
-    ))
-} */}
