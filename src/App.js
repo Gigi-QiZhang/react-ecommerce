@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Link, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import './App.css';
 import HomePage from './pages/homepage/homepage.component';
@@ -8,9 +8,6 @@ import HomePage from './pages/homepage/homepage.component';
 const HatsPage = () => {
   return (
     <div>
-      <Link to='/hats'> 
-        HATS
-      </Link>
       <h1>HATS PAGE</h1>  
     </div>
   )
