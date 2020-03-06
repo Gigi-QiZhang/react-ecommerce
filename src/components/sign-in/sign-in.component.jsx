@@ -18,8 +18,8 @@ class SignIn extends Component {
     //     e.prevenntDefault();
     //     this.setState({ email:'', password:''})
     // }
-    handleSubmit = async e => {
-        e.prevenntDefault();
+    handleSubmit = async event => {
+        event.preventDefault();
 
         const { email, password } = this.state;
 
@@ -29,11 +29,11 @@ class SignIn extends Component {
         } catch (error) {
             console.log(error);
         }
-        this.setState({ email:'', password:''})
+        // this.setState({ email:'', password:''})
     };
 
-    handleChange = e => {
-        const { value, name } = e.target;
+    handleChange = event => {
+        const { value, name } = event.target;
         this.setState({ [name]: value });
     }
 
@@ -60,10 +60,11 @@ class SignIn extends Component {
                         handleChange={this.handleChange}
                         value={this.state.password}
                         label='password'
-                        required/>
+                        required
+                    />
                     {/* <label>Password</label> */}
                     <div className='buttons'>
-                        <CustomButton type='submit'>Login</CustomButton>
+                        <CustomButton type='submit'>Sign in</CustomButton>
                         <CustomButton 
                             onClick={signInWithGoogle} 
                             isGoogleSignIn
