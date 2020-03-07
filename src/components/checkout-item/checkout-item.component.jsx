@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { removeItemFromCart, addItem, substractItem } from '../../redux/cart/cart.actions';
 
 import './checkout-item.styles.scss';
-import { substractItemFromCart } from '../../redux/cart/cart.utils';
+// import { substractItemFromCart } from '../../redux/cart/cart.utils';
 
 // const CheckoutItem = ({ cartItem: { name, imageUrl, price, quantity } }) => (
 const CheckoutItem =({ cartItem, removeItem, addItem, substractItem }) => {
