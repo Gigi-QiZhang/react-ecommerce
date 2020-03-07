@@ -1,27 +1,63 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
+
 import CollectionsOverview from '../../components/collections-overview/collections-overview.component';
+import CollectionsPage from '../collection/collection.component';
 
-// import { connect } from 'react-redux';
-// import { createStructuredSelector } from 'reselect';
-// import SHOP_DATA from './shop.data';
-// import CollectionPreview from '../../components/collection-preview/collection-preview.component';
-// import { selectCollections } from '../../redux/shop/shop.selector';
-
-const ShopPage = ({ collections }) => (
+const ShopPage = ({ match }) => (
     <div className='shop-page'>
-        <CollectionsOverview/>
+        <Route exact path={`${match.path}`} component={CollectionsOverview} />
+        <Route path={`${match.path}/:collectionId`} component={CollectionsPage} />
+
+        {/* <CollectionsOverview/> */}
         {/* {collections.map(({ id, ...otherCollectionProps }) => (
             <CollectionPreview key={id} {...otherCollectionProps}/>
-        ))} */}
+        ))} 
+        collections should be in the ({collections}) =>()
+        */}
     </div>
 );
 
 // const mapStateToProps = createStructuredSelector({
 //     collections: selectCollections
 // });
-
+// moved to collections-overview.component.jsx
 // export default connect(mapStateToProps)(ShopPage);
 export default ShopPage;
+
+
+
+
+
+// const ShopPage = ({ match }) => {
+//     // console.log('match:match:', match);
+//     // {path: "/shop", url: "/shop", isExact: true, params: {…}}
+//     //     path: "/shop"
+//     //     url: "/shop"
+//     //     isExact: true
+//     return (
+//         <div className='shop-page'>
+//             <Route exact path={`${match.path}`} component={CollectionsOverview} /> 
+//             {/* <CollectionsOverview/> */}
+//         </div>
+// )};
+
+// const ShopPage = ({ collections }) => (
+//     <div className='shop-page'>
+//         {collections.map(({ id, ...otherCollectionProps }) => (
+//             <CollectionPreview key={id} {...otherCollectionProps}/>
+//         ))}
+//     </div>
+// );
+
+
+
+// const mapStateToProps = createStructuredSelector({
+//     collections: selectCollections
+// });
+
+// export default connect(mapStateToProps)(ShopPage);
+
 
 
 // class ShopPage extends Component {
