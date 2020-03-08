@@ -1,14 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { withRouter } from 'react-router-dom';
 
-import CustomButton from '../custom-button/custom-button.component';
+// import CustomButton from '../custom-button/custom-button.component';
 import CartItem from '../cart-item/cart-item.component';
 import { selectCartItems } from '../../redux/cart/cart.selectors';
-import { toggoleCartHidden } from '../../redux/cart/cart.actions';
+import { toggleCartHidden } from '../../redux/cart/cart.actions';
 
-import './cart-dropdown.styles.scss';
+import {
+    CartDropdownContainer,
+    CartDropdownButton,
+    EmptyMessageContainer,
+    CartItemsContainer
+} from './cart-dropdown.styles';
+
+
+// import './cart-dropdown.styles.scss';
 
 // const CartDropdown = () => (
 //     <div className='cart-dropdown'>
@@ -17,32 +25,53 @@ import './cart-dropdown.styles.scss';
 //     </div>
 // );
 
-
 const CartDropdown = ({ cartItems, history, dispatch }) => (
-    // ({cartItems, history, ...otherProps})
-    // console.log(otherProps); //dispatch, location, match
-    // use dispatch here to avoid writting mapDispatchToProps
-    <div className='cart-dropdown'>
-        <div className='cart-items'>
-            { cartItems.length ? (
+    <CartDropdownContainer>
+        <CartItemsContainer>
+            {cartItems.length ? (
                 cartItems.map(cartItem => (
-                    <CartItem key={cartItem.id} item={cartItem}/>
+                    <CartItem key={cartItem.id} item={cartItem} />
                 ))
             ) : (
-                <span className='empty-message'>Your cart is empty</span>
-            )
-        }
-        </div>
-        <CustomButton 
-            onClick={() =>  {
+                <EmptyMessageContainer>Your cart is empty</EmptyMessageContainer>
+            )}
+        </CartItemsContainer>
+        <CartDropdownButton
+            onClick={() => {
                 history.push('/checkout');
-                dispatch(toggoleCartHidden());
+                dispatch(toggleCartHidden());
             }}
         >
             GO TO CHECKOUT
-        </CustomButton>
-    </div>
+        </CartDropdownButton>
+        </CartDropdownContainer>
 );
+
+// const CartDropdown = ({ cartItems, history, dispatch }) => (
+//     // ({cartItems, history, ...otherProps})
+//     // console.log(otherProps); //dispatch, location, match
+//     // use dispatch here to avoid writting mapDispatchToProps
+//     <div className='cart-dropdown'>
+//         <div className='cart-items'>
+//             { cartItems.length ? (
+//                 cartItems.map(cartItem => (
+//                     <CartItem key={cartItem.id} item={cartItem}/>
+//                 ))
+//             ) : (
+//                 <span className='empty-message'>Your cart is empty</span>
+//             )
+//         }
+//         </div>
+//         <CustomButton 
+//             onClick={() =>  {
+//                 history.push('/checkout');
+//                 dispatch(toggoleCartHidden());
+//             }}
+//         >
+//             GO TO CHECKOUT
+//         </CustomButton>
+//     </div>
+// );
 
 // const mapStateToProps = ({ cart: { cartItems } }) => ({
 //     cartItems

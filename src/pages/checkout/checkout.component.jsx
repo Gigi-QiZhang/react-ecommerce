@@ -7,44 +7,44 @@ import StripeCheckoutButton from '../../components/stripe-button/stripe-button.c
 
 import { selectCartItems, selectCartTotal } from '../../redux/cart/cart.selectors';
 
-import './checkout.styles.scss';
+import {
+    CheckoutPageContainer,
+    CheckoutHeaderContainer,
+    HeaderBlockContainer,
+    TotalContainer,
+    WarningContainer
+} from './checkout.styles';
 
 const CheckoutPage = ({ cartItems, total }) => (
-    <div className='checkout-page'>
-        <div className='checkout-header'>
-            <div className='header-block'>
+    <CheckoutPageContainer>
+        <CheckoutHeaderContainer>
+            <HeaderBlockContainer>
                 <span>Product</span>
-            </div>
-            <div className='header-block'>
+            </HeaderBlockContainer>
+            <HeaderBlockContainer>
                 <span>Description</span>
-            </div>
-            <div className='header-block'>
+            </HeaderBlockContainer>
+            <HeaderBlockContainer>
                 <span>Quantity</span>
-            </div>
-            <div className='header-block'>
+            </HeaderBlockContainer>
+            <HeaderBlockContainer>
                 <span>Price</span>
-            </div>
-            <div className='header-block'>
+            </HeaderBlockContainer>
+            <HeaderBlockContainer>
                 <span>Remove</span>
-            </div>
-        </div>
-        { 
-            // cartItems.map(cartItems => cartItems.name)
-            cartItems.map(cartItem => 
-                <CheckoutItem key={cartItem.id} cartItem={cartItem}/>
-            )
-        }
-        <div className='total'>
+            </HeaderBlockContainer>
+        </CheckoutHeaderContainer>
+        { cartItems.map(cartItem => <CheckoutItem key={cartItem.id} cartItem={cartItem}/>) }
+        <TotalContainer>
             <span>TOTAL: ${total}</span>
-        </div>
-        <div className='test-warning'>
+        </TotalContainer>
+        <WarningContainer>
             * Please use the following test credit card for payments. *
             <br/>
-            4242 4242 4242 4242 - Exp: 12/22 - CVV: 123
-        </div>
+            4242 4242 4242 4242 - Exp: 11/22 - CVV: 123
+        </WarningContainer>
         <StripeCheckoutButton price={total} />
-        
-    </div>
+    </CheckoutPageContainer>
 );
 
 const mapStateToProps = createStructuredSelector({
@@ -52,4 +52,54 @@ const mapStateToProps = createStructuredSelector({
     total: selectCartTotal
 });
 
+// const mapStateToProps = state => ({
+//     cartItems: selectCartItems(state),
+//     total: selectCartTotal(state)
+// });
+
 export default connect(mapStateToProps)(CheckoutPage);
+
+// import './checkout.styles.scss';
+
+// const CheckoutPage = ({ cartItems, total }) => (
+//     <div className='checkout-page'>
+//         <div className='checkout-header'>
+//             <div className='header-block'>
+//                 <span>Product</span>
+//             </div>
+//             <div className='header-block'>
+//                 <span>Description</span>
+//             </div>
+//             <div className='header-block'>
+//                 <span>Quantity</span>
+//             </div>
+//             <div className='header-block'>
+//                 <span>Price</span>
+//             </div>
+//             <div className='header-block'>
+//                 <span>Remove</span>
+//             </div>
+//         </div>
+//         { 
+//             // cartItems.map(cartItems => cartItems.name)
+//             cartItems.map(cartItem => 
+//                 <CheckoutItem key={cartItem.id} cartItem={cartItem}/>
+//             )
+//         }
+//         <div className='total'>
+//             <span>TOTAL: ${total}</span>
+//         </div>
+//         <div className='test-warning'>
+//             * Please use the following test credit card for payments. *
+//             <br/>
+//             4242 4242 4242 4242 - Exp: 12/22 - CVV: 123
+//         </div>
+//         <StripeCheckoutButton price={total} />
+        
+//     </div>
+// );
+
+// const mapStateToProps = state => ({
+//     cartItems: selectCartItems(state),
+//     total: selectCartTotal(state)
+// });

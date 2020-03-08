@@ -3,27 +3,36 @@ import { Route } from 'react-router-dom';
 
 import CollectionsOverview from '../../components/collections-overview/collections-overview.component';
 import CollectionsPage from '../collection/collection.component';
+import { ShopPageContainer } from './shop.styles';
 
 const ShopPage = ({ match }) => (
-    <div className='shop-page'>
+    <ShopPageContainer>
         <Route exact path={`${match.path}`} component={CollectionsOverview} />
         <Route path={`${match.path}/:collectionId`} component={CollectionsPage} />
-
-        {/* <CollectionsOverview/> */}
-        {/* {collections.map(({ id, ...otherCollectionProps }) => (
-            <CollectionPreview key={id} {...otherCollectionProps}/>
-        ))} 
-        collections should be in the ({collections}) =>()
-        */}
-    </div>
+    </ShopPageContainer>
 );
+
+export default ShopPage;
+
+// const ShopPage = ({ match }) => (
+//     <div className='shop-page'>
+//         <Route exact path={`${match.path}`} component={CollectionsOverview} />
+//         <Route path={`${match.path}/:collectionId`} component={CollectionsPage} />
+
+//         {/* <CollectionsOverview/> */}
+//         {/* {collections.map(({ id, ...otherCollectionProps }) => (
+//             <CollectionPreview key={id} {...otherCollectionProps}/>
+//         ))} 
+//         collections should be in the ({collections}) =>()
+//         */}
+//     </div>
+// );
 
 // const mapStateToProps = createStructuredSelector({
 //     collections: selectCollections
 // });
 // moved to collections-overview.component.jsx
 // export default connect(mapStateToProps)(ShopPage);
-export default ShopPage;
 
 
 
