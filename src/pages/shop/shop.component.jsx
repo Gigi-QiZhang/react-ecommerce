@@ -9,6 +9,11 @@ import { ShopPageContainer } from './shop.styles';
 import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
 import { updateCollections } from '../../redux/shop/shop.actions';
 
+import WithSpinner from '../../components/with-spinner/with-spinner.component';
+
+const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
+const CollectionsPageWithSpinner = WithSpinner(CollectionsPage);
+
 // const ShopPage = ({ match }) => (
 //     <ShopPageContainer>
 //         <Route exact path={`${match.path}`} component={CollectionsOverview} />
@@ -16,24 +21,60 @@ import { updateCollections } from '../../redux/shop/shop.actions';
 //     </ShopPageContainer>
 // );
 class ShopPage extends Component {
+    // constructor() {
+    //     super();
+    //     this.state = {
+    //         loading: true
+    //     }
+    // }
+    state = {
+        loading: true
+    }
+
     unsubscribeFromSnapshot = null;
 
+    // Obeservable pattern, subscribe to stream of data
+    // componentDidMount() {
+    //     const { updateCollections } = this.props;
+    //     const collectionRef = firestore.collection('collections');
+    //     this.unsubscribeFromSnapshot = collectionRef.onSnapshot(async snapshot => {
+    //         // console.log("snapshot:", snapshot);
+    //         const collectionMap = convertCollectionsSnapshotToMap(snapshot);
+    //         // console.log("collectionMap:", collectionMap);
+    //         updateCollections(collectionMap);
+    //         this.setState({ loading: false });
+    //     });
+    // };
+
+    // Promise pattern
     componentDidMount() {
         const { updateCollections } = this.props;
         const collectionRef = firestore.collection('collections');
-        this.unsubscribeFromSnapshot = collectionRef.onSnapshot(async snapshot => {
-            console.log("snapshot:", snapshot);
+        collectionRef.get().then(snapshot => {
             const collectionMap = convertCollectionsSnapshotToMap(snapshot);
-            console.log("collectionMap:", collectionMap);
             updateCollections(collectionMap);
+            this.setState({ loading: false });
         });
-    };
+
+        // can use fetch method to get deeply nested response object
+        // fetch('https://firestore.googleapis.com/v1/projects/ecommerce-db-b5c9e/databases/(default)/documents/collections')
+        //     .then(response => response.json()
+        //     .then(collections => console.log(collections)
+        // ));
+          
+    }
+
+   
+
     render () {
         const { match } = this.props;
+        const { loading } = this.state;
         return (
             <ShopPageContainer>
-                <Route exact path={`${match.path}`} component={CollectionsOverview} />
-                <Route path={`${match.path}/:collectionId`} component={CollectionsPage} />
+                {/* <Route exact path={`${match.path}`} component={CollectionsOverview} /> */}
+                <Route exact path={`${match.path}`} render={(props) => (<CollectionsOverviewWithSpinner isLoading={loading} {...props} />)} />
+                {/* <Route path={`${match.path}/:collectionId`} component={CollectionsPage} /> */}
+                <Route path={`${match.path}/:collectionId`} render={(props) => (<CollectionsPageWithSpinner isLoading={loading} {...props} />)} />
             </ShopPageContainer>
         )
     }

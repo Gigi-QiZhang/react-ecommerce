@@ -1,9 +1,13 @@
-import SHOP_DATA from './shop.data';
+// import SHOP_DATA from './shop.data';
+// data moved to backend
 
 import ShopActionTypes from './shop.actionTypes';
 
+// const INITIAL_STATE = {
+//     collections: SHOP_DATA
+// };
 const INITIAL_STATE = {
-    collections: SHOP_DATA
+    collections: null
 };
 
 const shopReducer = (state = INITIAL_STATE, action) => {

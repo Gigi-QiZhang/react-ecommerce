@@ -18,13 +18,14 @@ export const selectCollections= createSelector(
 // convert object to array (refactor for shop.data.js)
 export const selectCollectionForPreview = createSelector(
     [selectCollections],
-    collections => Object.keys(collections).map(key => collections[key])
+    // collections => Object.keys(collections).map(key => collections[key])
+    collections => collections ? Object.keys(collections).map(key => collections[key]) : []
 );
 
 
-export const selectCollection = collectionUrlParam => 
-    createSelector(
+export const selectCollection = collectionUrlParam => createSelector(
         [selectCollections],
-        collections => collections[collectionUrlParam] // refactored 
+        // collections => collections[collectionUrlParam] // refactored 
         // collections.find(collection => collection.id === COLLECTION_ID_MAP[collectionUrlParam])
-    )
+        collections => (collections ? collections[collectionUrlParam] : null)
+)
