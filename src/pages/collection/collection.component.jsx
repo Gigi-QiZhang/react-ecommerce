@@ -16,7 +16,10 @@ import './collection.styles.scss';
 // )};
 
 const CollectionPage = ({ collection }) => {
-    const { title, items } = collection;
+    const { title, items } = collection; 
+    // after use thunk, TypeError: Cannot destructure property 'title' of 'collection' as it is null.
+    // added isCollectionLoaded in shop.selector.js
+    // used in shop.component.js of mapStateToProps and <CollectionsPageWithSpinner isLoading={!isCollectionLoaded}>
     return (
         <div className='collection-page'>
             <h2 className='title'>{title}</h2>
