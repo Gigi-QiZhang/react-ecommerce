@@ -15,6 +15,7 @@ import ContactPage from './pages/contact/contact.component';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selector';
+// import { selectCollectionForPreview } from './redux/shop/shop.selector';
 
 class App extends Component {
   // constructor() {
@@ -35,6 +36,7 @@ class App extends Component {
   //   });
   // }
   componentDidMount() {
+    // const { setCurrentUser, collectionsArray } = this.props;
     const { setCurrentUser } = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
@@ -58,6 +60,10 @@ class App extends Component {
       }
       // this.setState({ currentUser: userAuth });
       setCurrentUser(userAuth);
+
+      // addCollecionAndDocuments('collections', collectionsArray);
+      // addCollecionAndDocuments('collections', collectionsArray.map(({ title, items }) => ({ title, items })));
+
     });
   }
 
@@ -99,7 +105,8 @@ class App extends Component {
 //   currentUser: user.currentUser
 // });
 const mapStateToProps = createStructuredSelector({
-    currentUser: selectCurrentUser
+    currentUser: selectCurrentUser,
+    // collectionsArray: selectCollectionForPreview
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -107,8 +114,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-
 
 
 // const TopicsList = (props) => {
