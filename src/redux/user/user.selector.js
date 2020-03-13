@@ -7,5 +7,5 @@ export const selectCurrentUser = createSelector(
     // [selectUser, selectCart],
     [selectUser],
     // selectCart,
-    (user) => user.currentUser
-)
+    user => user.currentUser
+);

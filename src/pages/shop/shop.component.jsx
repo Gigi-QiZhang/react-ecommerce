@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
+// import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 
 
@@ -13,7 +13,8 @@ import CollectionsPageContainer from '../collection/collection.container';
 // // removed after use redux-thunk
 // import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
 // import { updateCollections } from '../../redux/shop/shop.actions';
-import { fetchCollectionsStartAsync } from '../../redux/shop/shop.actions';
+// import { fetchCollectionsStartAsync } from '../../redux/shop/shop.actions';
+import { fetchCollectionsStart } from '../../redux/shop/shop.actions';
 
 // removed after use container pattern
 // import { selectIsCollectionFetching, selectIsCollectionLoaded } from '../../redux/shop/shop.selector';
@@ -62,26 +63,32 @@ class ShopPage extends Component {
   
 
     // Promise pattern
-    componentDidMount() {
-        const { fetchCollectionsStartAsync } = this.props;
-        fetchCollectionsStartAsync();
+    // componentDidMount() {
+    //     const { fetchCollectionsStartAsync } = this.props;
+    //     fetchCollectionsStartAsync();
 
-        // const { updateCollections } = this.props;
-        // moved to shop.action.js for thunk middleware for async call
-        // const collectionRef = firestore.collection('collections');
-        // collectionRef.get().then(snapshot => {
-        //     const collectionMap = convertCollectionsSnapshotToMap(snapshot);
-        //     updateCollections(collectionMap);
-        //     this.setState({ loading: false });
-        // });
+    //     // const { updateCollections } = this.props;
+    //     // moved to shop.action.js for thunk middleware for async call
+    //     // const collectionRef = firestore.collection('collections');
+    //     // collectionRef.get().then(snapshot => {
+    //     //     const collectionMap = convertCollectionsSnapshotToMap(snapshot);
+    //     //     updateCollections(collectionMap);
+    //     //     this.setState({ loading: false });
+    //     // });
 
 
-        // can use fetch method to get deeply nested response object
-        // fetch('https://firestore.googleapis.com/v1/projects/ecommerce-db-b5c9e/databases/(default)/documents/collections')
-        //     .then(response => response.json()
-        //     .then(collections => console.log(collections)
-        // ));
+    //     // can use fetch method to get deeply nested response object
+    //     // fetch('https://firestore.googleapis.com/v1/projects/ecommerce-db-b5c9e/databases/(default)/documents/collections')
+    //     //     .then(response => response.json()
+    //     //     .then(collections => console.log(collections)
+    //     // ));
           
+    // }
+
+    // sagas method
+    componentDidMount() {
+        const { fetchCollectionsStart } = this.props;
+        fetchCollectionsStart();
     }
 
     render () {
@@ -109,10 +116,17 @@ class ShopPage extends Component {
 //     // isCollectionLoaded: selectIsCollectionLoaded
 // });
 
+// const mapDispatchToProps = dispatch => ({
+//     // updateCollections: collectionMap => dispatch(updateCollections(collectionMap)) // removed after use of redux-thunk
+//     fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync())
+// });
+
+// sagas method
 const mapDispatchToProps = dispatch => ({
     // updateCollections: collectionMap => dispatch(updateCollections(collectionMap)) // removed after use of redux-thunk
-    fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync())
+    fetchCollectionsStart: () => dispatch(fetchCollectionsStart())
 });
+
 
 export default connect(null, mapDispatchToProps)(ShopPage);
 

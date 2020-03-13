@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+
 import './App.css';
 
 import Header from './components/header/header.component';
@@ -12,10 +13,11 @@ import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up.com
 import CheckoutPage from './pages/checkout/checkout.component';
 import ContactPage from './pages/contact/contact.component';
 
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
-import { setCurrentUser } from './redux/user/user.actions';
+// import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+// import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selector';
 // import { selectCollectionForPreview } from './redux/shop/shop.selector';
+import { checkUserSession } from './redux/user/user.actions';
 
 class App extends Component {
   // constructor() {
@@ -35,42 +37,47 @@ class App extends Component {
   //     // console.log(user);
   //   });
   // }
+
+  
   componentDidMount() {
-    // const { setCurrentUser, collectionsArray } = this.props;
-    const { setCurrentUser } = this.props;
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
-        // userRef.onSnapshot(snapShot => {
-        //   this.setState({
-        //     currentUser: {
-        //       id: snapShot.id,
-        //       ...snapShot.data()
-        //     }
-        //   }, () => {
-        //     console.log("this.state:", this.state);
-        //   })
-        // });
-        userRef.onSnapshot(snapShot => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          });
-        });
-      }
-      // this.setState({ currentUser: userAuth });
-      setCurrentUser(userAuth);
+    const { checkUserSession } = this.props;
+    checkUserSession();
 
-      // addCollecionAndDocuments('collections', collectionsArray);
-      // addCollecionAndDocuments('collections', collectionsArray.map(({ title, items }) => ({ title, items })));
+  //   // const { setCurrentUser, collectionsArray } = this.props;
+    // const { setCurrentUser } = this.props;
+  //   this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+  //     if (userAuth) {
+  //       const userRef = await createUserProfileDocument(userAuth);
+  //       // userRef.onSnapshot(snapShot => {
+  //       //   this.setState({
+  //       //     currentUser: {
+  //       //       id: snapShot.id,
+  //       //       ...snapShot.data()
+  //       //     }
+  //       //   }, () => {
+  //       //     console.log("this.state:", this.state);
+  //       //   })
+  //       // });
+  //       userRef.onSnapshot(snapShot => {
+  //         setCurrentUser({
+  //           id: snapShot.id,
+  //           ...snapShot.data()
+  //         });
+  //       });
+  //     }
+  //     // this.setState({ currentUser: userAuth });
+  //     setCurrentUser(userAuth);
 
-    });
-  }
+  //     // addCollecionAndDocuments('collections', collectionsArray);
+  //     // addCollecionAndDocuments('collections', collectionsArray.map(({ title, items }) => ({ title, items })));
+
+  //   });
+  };
 
 
   componentWillUnmount() {
     this.unsubscribeFromAuth();
-  }
+  };
 
   render() {
     return (
@@ -105,12 +112,14 @@ class App extends Component {
 //   currentUser: user.currentUser
 // });
 const mapStateToProps = createStructuredSelector({
-    currentUser: selectCurrentUser,
+    currentUser: selectCurrentUser
     // collectionsArray: selectCollectionForPreview
 });
 
+
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+  // setCurrentUser: user => dispatch(setCurrentUser(user))
+  checkUserSession: () => dispatch(checkUserSession())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
