@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { selectCollection } from '../../redux/shop/shop.selector';
 import CollectionItem from '../../components/collection-item/collection-item.component';
 
-import './collection.styles.scss';
+import { firestore } from '../../firebase/firebase.utils';
+
+import {
+    CollectionPageContainer,
+    CollectionTitle,
+    CollectionItemsContainer
+} from './collection.styles';
+
+// import './collection.styles.scss';
 
 // const CollectionPage = ({ match }) => {
 //     // console.log("collection:",collection);
@@ -16,19 +24,31 @@ import './collection.styles.scss';
 // )};
 
 const CollectionPage = ({ collection }) => {
+    // unsubscribeFromCollection = null;
+    // componentDidMount()
+    // componentWillUnmount()
+
+    useEffect(() => {
+        console.log("im subscribing");
+        const unsubscribeFromCollections = firestore
+            .collection('collections')
+            .onSnapshot(snapshot => console.log("snapshot:",snapshot));
+        return () => {
+            console.log("im unsubscribing");
+            unsubscribeFromCollections();
+        };
+    },[]);
+
     const { title, items } = collection; 
-    // after use thunk, TypeError: Cannot destructure property 'title' of 'collection' as it is null.
-    // added isCollectionLoaded in shop.selector.js
-    // used in shop.component.js of mapStateToProps and <CollectionsPageWithSpinner isLoading={!isCollectionLoaded}>
-    return (
-        <div className='collection-page'>
-            <h2 className='title'>{title}</h2>
-            <div className='items'>
+     return (
+        <CollectionPageContainer>
+            <CollectionTitle>{title}</CollectionTitle>
+            <CollectionItemsContainer>
                 {items.map(item => (
                     <CollectionItem key={item.id} item={item}/>
                 ))}
-            </div>
-        </div>
+            </CollectionItemsContainer>
+        </CollectionPageContainer>
 )};
 
 

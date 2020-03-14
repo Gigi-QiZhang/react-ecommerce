@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -19,110 +19,154 @@ import { selectCurrentUser } from './redux/user/user.selector';
 // import { selectCollectionForPreview } from './redux/shop/shop.selector';
 import { checkUserSession } from './redux/user/user.actions';
 
-class App extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     currentUser: null
-  //   }
-  // } when use redux, mapDispatchToProps, do not need construtor
-  // can get state from store
+// changed to useEffect hook
+const App = ({ checkUserSession, currentUser }) => {
+  useEffect(() => {
+    checkUserSession()
+  }, [checkUserSession]);
 
-  unsubscribeFromAuth = null
-
-  // componentDidMount() {
-  //   this.unsubscribeFromAuth = auth.onAuthStateChanged(async user => {
-  //     // this.setState({ currentUser: user });
-  //     createUserProfileDocument(user);
-  //     // console.log(user);
-  //   });
-  // }
-
-  
-  componentDidMount() {
-    const { checkUserSession } = this.props;
-    checkUserSession();
-
-  //   // const { setCurrentUser, collectionsArray } = this.props;
-    // const { setCurrentUser } = this.props;
-  //   this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-  //     if (userAuth) {
-  //       const userRef = await createUserProfileDocument(userAuth);
-  //       // userRef.onSnapshot(snapShot => {
-  //       //   this.setState({
-  //       //     currentUser: {
-  //       //       id: snapShot.id,
-  //       //       ...snapShot.data()
-  //       //     }
-  //       //   }, () => {
-  //       //     console.log("this.state:", this.state);
-  //       //   })
-  //       // });
-  //       userRef.onSnapshot(snapShot => {
-  //         setCurrentUser({
-  //           id: snapShot.id,
-  //           ...snapShot.data()
-  //         });
-  //       });
-  //     }
-  //     // this.setState({ currentUser: userAuth });
-  //     setCurrentUser(userAuth);
-
-  //     // addCollecionAndDocuments('collections', collectionsArray);
-  //     // addCollecionAndDocuments('collections', collectionsArray.map(({ title, items }) => ({ title, items })));
-
-  //   });
-  };
-
-
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  };
-
-  render() {
-    return (
-      <div>
-        {/* <HomePage/> */}
-        {/* <Header currentUser={this.state.currentUser}/> */}
-        {/* use store to manage state */}
-        <Header/> 
-        <Switch>
-          <Route exact path='/' component={HomePage}/>
-          <Route path='/shop' component={ShopPage}/>
-          <Route exact path='/checkout' component={CheckoutPage}/>
-          <Route path='/contact' component={ContactPage}/>
-          <Route 
-            exact path='/signin' 
-            render={() => 
-              this.props.currentUser ? (
-                <Redirect to='/'/>
-              ) : (
-                <SignInAndSignUp/>
-              )
-            } 
-            // component={SignInAndSignUP}
-          />
-        </Switch>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Header/> 
+      <Switch>
+        <Route exact path='/' component={HomePage}/>
+        <Route path='/shop' component={ShopPage}/>
+        <Route exact path='/checkout' component={CheckoutPage}/>
+        <Route path='/contact' component={ContactPage}/>
+        <Route 
+          exact path='/signin' 
+          render={() => 
+            currentUser ? (
+              <Redirect to='/'/>
+            ) : (
+              <SignInAndSignUp/>
+            )
+          }
+        />
+      </Switch>
+    </div>
+  );
 }
 
-// const mapStateToProps = ({ user }) => ({
-//   currentUser: user.currentUser
-// });
 const mapStateToProps = createStructuredSelector({
-    currentUser: selectCurrentUser
-    // collectionsArray: selectCollectionForPreview
+  currentUser: selectCurrentUser
+  // collectionsArray: selectCollectionForPreview
 });
 
 
 const mapDispatchToProps = dispatch => ({
-  // setCurrentUser: user => dispatch(setCurrentUser(user))
-  checkUserSession: () => dispatch(checkUserSession())
+// setCurrentUser: user => dispatch(setCurrentUser(user))
+checkUserSession: () => dispatch(checkUserSession())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+
+
+// class App extends Component {
+//   // constructor() {
+//   //   super();
+//   //   this.state = {
+//   //     currentUser: null
+//   //   }
+//   // } when use redux, mapDispatchToProps, do not need construtor
+//   // can get state from store
+
+//   unsubscribeFromAuth = null
+
+//   // componentDidMount() {
+//   //   this.unsubscribeFromAuth = auth.onAuthStateChanged(async user => {
+//   //     // this.setState({ currentUser: user });
+//   //     createUserProfileDocument(user);
+//   //     // console.log(user);
+//   //   });
+//   // }
+
+  
+//   componentDidMount() {
+//     const { checkUserSession } = this.props;
+//     checkUserSession();
+
+//   //   // const { setCurrentUser, collectionsArray } = this.props;
+//     // const { setCurrentUser } = this.props;
+//   //   this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+//   //     if (userAuth) {
+//   //       const userRef = await createUserProfileDocument(userAuth);
+//   //       // userRef.onSnapshot(snapShot => {
+//   //       //   this.setState({
+//   //       //     currentUser: {
+//   //       //       id: snapShot.id,
+//   //       //       ...snapShot.data()
+//   //       //     }
+//   //       //   }, () => {
+//   //       //     console.log("this.state:", this.state);
+//   //       //   })
+//   //       // });
+//   //       userRef.onSnapshot(snapShot => {
+//   //         setCurrentUser({
+//   //           id: snapShot.id,
+//   //           ...snapShot.data()
+//   //         });
+//   //       });
+//   //     }
+//   //     // this.setState({ currentUser: userAuth });
+//   //     setCurrentUser(userAuth);
+
+//   //     // addCollecionAndDocuments('collections', collectionsArray);
+//   //     // addCollecionAndDocuments('collections', collectionsArray.map(({ title, items }) => ({ title, items })));
+
+//   //   });
+//   };
+
+
+//   componentWillUnmount() {
+//     this.unsubscribeFromAuth();
+//   };
+
+//   render() {
+//     return (
+//       <div>
+//         {/* <HomePage/> */}
+//         {/* <Header currentUser={this.state.currentUser}/> */}
+//         {/* use store to manage state */}
+//         <Header/> 
+//         <Switch>
+//           <Route exact path='/' component={HomePage}/>
+//           <Route path='/shop' component={ShopPage}/>
+//           <Route exact path='/checkout' component={CheckoutPage}/>
+//           <Route path='/contact' component={ContactPage}/>
+//           <Route 
+//             exact path='/signin' 
+//             render={() => 
+//               this.props.currentUser ? (
+//                 <Redirect to='/'/>
+//               ) : (
+//                 <SignInAndSignUp/>
+//               )
+//             } 
+//             // component={SignInAndSignUP}
+//           />
+//         </Switch>
+//       </div>
+//     );
+//   }
+// }
+
+// const mapStateToProps = ({ user }) => ({
+//   currentUser: user.currentUser
+// });
+// const mapStateToProps = createStructuredSelector({
+//     currentUser: selectCurrentUser
+//     // collectionsArray: selectCollectionForPreview
+// });
+
+
+// const mapDispatchToProps = dispatch => ({
+//   // setCurrentUser: user => dispatch(setCurrentUser(user))
+//   checkUserSession: () => dispatch(checkUserSession())
+// });
+
+// export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 
 // const TopicsList = (props) => {

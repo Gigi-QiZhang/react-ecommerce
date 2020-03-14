@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
 // import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -23,6 +23,26 @@ import { fetchCollectionsStart } from '../../redux/shop/shop.actions';
 
 import { ShopPageContainer } from './shop.styles';
 
+const ShopPage = ({ fetchCollectionsStart, match }) => {
+    useEffect(() => {
+        fetchCollectionsStart()
+    }, [fetchCollectionsStart]);
+
+    return (
+        <ShopPageContainer>
+            <Route exact path={`${match.path}`} component={ CollectionsOverviewContainer } />
+            <Route path={`${match.path}/:collectionId`} component={CollectionsPageContainer} />
+        </ShopPageContainer>
+    )
+};
+
+const mapDispatchToProps = dispatch => ({
+    fetchCollectionsStart: () => dispatch(fetchCollectionsStart())
+});
+
+export default connect(null, mapDispatchToProps)(ShopPage);
+
+
 // const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
 // const CollectionsPageWithSpinner = WithSpinner(CollectionsPage);
 
@@ -32,84 +52,86 @@ import { ShopPageContainer } from './shop.styles';
 //         <Route path={`${match.path}/:collectionId`} component={CollectionsPage} />
 //     </ShopPageContainer>
 // );
-class ShopPage extends Component {
-    // constructor() {
-    //     super();
-    //     this.state = {
-    //         loading: true
-    //     }
-    // }
 
-    // removed after use redux-thunk
-    // state = {
-    //     loading: true
-    // }
-    // unsubscribeFromSnapshot = null;
-    // removed after use redux-thunk
+//********************************************************************************** */
+// class ShopPage extends Component {
+//     // constructor() {
+//     //     super();
+//     //     this.state = {
+//     //         loading: true
+//     //     }
+//     // }
+
+//     // removed after use redux-thunk
+//     // state = {
+//     //     loading: true
+//     // }
+//     // unsubscribeFromSnapshot = null;
+//     // removed after use redux-thunk
     
 
-    // Obeservable pattern, subscribe to stream of data
-    // componentDidMount() {
-    //     const { updateCollections } = this.props;
-    //     const collectionRef = firestore.collection('collections');
-    //     this.unsubscribeFromSnapshot = collectionRef.onSnapshot(async snapshot => {
-    //         // console.log("snapshot:", snapshot);
-    //         const collectionMap = convertCollectionsSnapshotToMap(snapshot);
-    //         // console.log("collectionMap:", collectionMap);
-    //         updateCollections(collectionMap);
-    //         this.setState({ loading: false });
-    //     });
-    // };
+//     // Obeservable pattern, subscribe to stream of data
+//     // componentDidMount() {
+//     //     const { updateCollections } = this.props;
+//     //     const collectionRef = firestore.collection('collections');
+//     //     this.unsubscribeFromSnapshot = collectionRef.onSnapshot(async snapshot => {
+//     //         // console.log("snapshot:", snapshot);
+//     //         const collectionMap = convertCollectionsSnapshotToMap(snapshot);
+//     //         // console.log("collectionMap:", collectionMap);
+//     //         updateCollections(collectionMap);
+//     //         this.setState({ loading: false });
+//     //     });
+//     // };
   
 
-    // Promise pattern
-    // componentDidMount() {
-    //     const { fetchCollectionsStartAsync } = this.props;
-    //     fetchCollectionsStartAsync();
+//     // Promise pattern
+//     // componentDidMount() {
+//     //     const { fetchCollectionsStartAsync } = this.props;
+//     //     fetchCollectionsStartAsync();
 
-    //     // const { updateCollections } = this.props;
-    //     // moved to shop.action.js for thunk middleware for async call
-    //     // const collectionRef = firestore.collection('collections');
-    //     // collectionRef.get().then(snapshot => {
-    //     //     const collectionMap = convertCollectionsSnapshotToMap(snapshot);
-    //     //     updateCollections(collectionMap);
-    //     //     this.setState({ loading: false });
-    //     // });
+//     //     // const { updateCollections } = this.props;
+//     //     // moved to shop.action.js for thunk middleware for async call
+//     //     // const collectionRef = firestore.collection('collections');
+//     //     // collectionRef.get().then(snapshot => {
+//     //     //     const collectionMap = convertCollectionsSnapshotToMap(snapshot);
+//     //     //     updateCollections(collectionMap);
+//     //     //     this.setState({ loading: false });
+//     //     // });
 
 
-    //     // can use fetch method to get deeply nested response object
-    //     // fetch('https://firestore.googleapis.com/v1/projects/ecommerce-db-b5c9e/databases/(default)/documents/collections')
-    //     //     .then(response => response.json()
-    //     //     .then(collections => console.log(collections)
-    //     // ));
+//     //     // can use fetch method to get deeply nested response object
+//     //     // fetch('https://firestore.googleapis.com/v1/projects/ecommerce-db-b5c9e/databases/(default)/documents/collections')
+//     //     //     .then(response => response.json()
+//     //     //     .then(collections => console.log(collections)
+//     //     // ));
           
-    // }
+//     // }
 
-    // sagas method
-    componentDidMount() {
-        const { fetchCollectionsStart } = this.props;
-        fetchCollectionsStart();
-    }
+//     // sagas method
+//     componentDidMount() {
+//         const { fetchCollectionsStart } = this.props;
+//         fetchCollectionsStart();
+//     }
 
-    render () {
-        const { match } = this.props;
-        // const { match, isCollectionFetching, isCollectionLoaded } = this.props;
-        // const { loading } = this.state; // removed after use redux-thunk
-        return (
-            <ShopPageContainer>
-                {/* <Route exact path={`${match.path}`} component={CollectionsOverview} /> */}
-                {/* <Route exact path={`${match.path}`}  render={(props) => (<CollectionsOverviewWithSpinner isLoading={loading} {...props} />)} /> */}
-                {/* <Route exact path={`${match.path}`}  render={(props) => (<CollectionsOverviewWithSpinner isLoading={isCollectionFetching} {...props} />)} /> */}
-                <Route exact path={`${match.path}`} component={ CollectionsOverviewContainer } />
-                {/* <Route path={`${match.path}/:collectionId`} component={CollectionsPage} /> */}
-                {/* <Route path={`${match.path}/:collectionId`} render={(props) => (<CollectionsPageWithSpinner isLoading={loading} {...props} />)} /> */}
-                {/* <Route path={`${match.path}/:collectionId`} render={(props) => (<CollectionsPageWithSpinner isLoading={isCollectionFetching} {...props} />)} /> */}
-                {/* <Route path={`${match.path}/:collectionId`} render={(props) => (<CollectionsPageWithSpinner isLoading={!isCollectionLoaded} {...props} />)} /> */}
-                <Route path={`${match.path}/:collectionId`} component={CollectionsPageContainer} />
-            </ShopPageContainer>
-        )
-    }
-};
+//     render () {
+//         const { match } = this.props;
+//         // const { match, isCollectionFetching, isCollectionLoaded } = this.props;
+//         // const { loading } = this.state; // removed after use redux-thunk
+//         return (
+//             <ShopPageContainer>
+//                 {/* <Route exact path={`${match.path}`} component={CollectionsOverview} /> */}
+//                 {/* <Route exact path={`${match.path}`}  render={(props) => (<CollectionsOverviewWithSpinner isLoading={loading} {...props} />)} /> */}
+//                 {/* <Route exact path={`${match.path}`}  render={(props) => (<CollectionsOverviewWithSpinner isLoading={isCollectionFetching} {...props} />)} /> */}
+//                 <Route exact path={`${match.path}`} component={ CollectionsOverviewContainer } />
+//                 {/* <Route path={`${match.path}/:collectionId`} component={CollectionsPage} /> */}
+//                 {/* <Route path={`${match.path}/:collectionId`} render={(props) => (<CollectionsPageWithSpinner isLoading={loading} {...props} />)} /> */}
+//                 {/* <Route path={`${match.path}/:collectionId`} render={(props) => (<CollectionsPageWithSpinner isLoading={isCollectionFetching} {...props} />)} /> */}
+//                 {/* <Route path={`${match.path}/:collectionId`} render={(props) => (<CollectionsPageWithSpinner isLoading={!isCollectionLoaded} {...props} />)} /> */}
+//                 <Route path={`${match.path}/:collectionId`} component={CollectionsPageContainer} />
+//             </ShopPageContainer>
+//         )
+//     }
+// };
 
 // const mapStateToProps = createStructuredSelector({
 //     // isCollectionFetching: selectIsCollectionFetching,
@@ -122,13 +144,13 @@ class ShopPage extends Component {
 // });
 
 // sagas method
-const mapDispatchToProps = dispatch => ({
-    // updateCollections: collectionMap => dispatch(updateCollections(collectionMap)) // removed after use of redux-thunk
-    fetchCollectionsStart: () => dispatch(fetchCollectionsStart())
-});
+// const mapDispatchToProps = dispatch => ({
+//     // updateCollections: collectionMap => dispatch(updateCollections(collectionMap)) // removed after use of redux-thunk
+//     fetchCollectionsStart: () => dispatch(fetchCollectionsStart())
+// });
 
 
-export default connect(null, mapDispatchToProps)(ShopPage);
+// export default connect(null, mapDispatchToProps)(ShopPage);
 
 // const ShopPage = ({ match }) => (
 //     <div className='shop-page'>

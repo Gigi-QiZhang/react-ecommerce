@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import { persistStore } from 'redux-persist';
 import logger from 'redux-logger';
-import thunk from 'redux-thunk';
+// import thunk from 'redux-thunk';
 //Module not found: Can't resolve 'redux-thunk'
 // solved by npm install --save redux react-redux together
 import createSagaMiddleware from 'redux-saga';
