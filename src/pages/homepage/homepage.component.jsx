@@ -10,6 +10,13 @@ const HomePage = () => (
     </HomePageContainer>
 );
 
+// {throw Error;
+//     return (
+//     <HomePageContainer>
+//         <Directory />
+//     </HomePageContainer>
+// )};
+
 export default HomePage;
 
 
