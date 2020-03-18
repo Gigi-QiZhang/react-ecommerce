@@ -13,8 +13,6 @@ const StripeCheckoutButton = ({ price }) => {
         <StripeCheckout
             label='Pay Now'
             name='REACT ECOMMERCE Ltd.'
-            billingAddress
-            shippingAddress
             image='https://svgshare.com/i/CUz.svg'
             description={`Your total is $${price}`}
             amount={priceForStripe}
